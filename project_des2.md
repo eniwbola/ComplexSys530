@@ -49,11 +49,102 @@ _Description of the environment in your model. Things to specify *if they apply*
 
 
 The environment with tbe the two lattices of excitatory neurons and inhibitory neurons where I will have roughly 1000 excitatory neurons and 250 inhibitory neurons. Such that the map will be and a grid consisting of both populations. The dimensionaliity with therefore be two dimensional will wrapped bounday condtions. The envirosment with will consist of localized current inputs such that neurons in certain regions are exposed to different amounts of external input. 
-```python
+```
 # Include first pass of the code you are thinking of using to construct your environment
 # This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
 # Feel free to include any patch methods/procedures you have. Filling in with pseudocode is ok! 
 # NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block
+
+if(i!=0){if( (radius_connect_ee[i-1][1]-floor((i)/ (sqrt(nexc))) ) !=0  ){x_coor_counter=0; }} // so this is to basically set where the neuron is in the column, so this line of code resets if move to the next row to start in the zero column
+	radius_connect_ee[i][0]= x_coor_counter;//i%( (int) round(sqrt(nexc)));
+
+	radius_connect_ee[i][1]= floor((i)/ (sqrt(nexc)));
+
+	radius_con_ee_text<< radius_connect_ee[i][0];	
+	radius_con_ee_text << " ";
+
+	radius_con_ee_text<< radius_connect_ee[i][1];
+	radius_con_ee_text<<endl;
+x_coor_counter++;
+}
+
+//////////////////////////////////////////
+
+bool rewire;
+double distance_prob;
+double distance_prob_2;
+int preconnectivityee[nexc][nexc];
+	for(int i=0;i<nexc;i++)
+	{
+		for(int j=0;j<nexc;j++)
+		{
+			//cout<< randee<<endl;
+			randee=((double)rand()/(RAND_MAX));
+			
+		// distance_prob=gaus_prob_2D(radius_connect_ee[i][0],radius_connect_ee[i][1],radius_connect_ee[j][0],radius_connect_ee[j][1], sqrt(nexc)/3 ); //(xcoor_self,ycoor_self,xcoor_neighbor,ycoor_neighbor, max_size); // so this is for a gussian 
+                 distance_prob=radius_prob_2D(radius_connect_ee[i][0],radius_connect_ee[i][1],radius_connect_ee[j][0],radius_connect_ee[j][1], nexc,nexc,16);
+                  //radius_prob_2D(int xcoor_self, int ycoor_self,int xcoor_neighbor, int ycoor_neighbor, nexc ,n_neigh,kxx)         
+		if(j>1200)//j%100==0)
+		{// cout<< j <<" " << radius_connect_ee[i][0]<<" " << radius_connect_ee[i][1] <<" " << radius_connect_ee[j][0] <<" " << radius_connect_ee[j][1] << " " << distance_prob << endl;
+		}
+
+
+			//rewire=randee<pconee;
+			rewire=randee<distance_prob;
+			
+			if ((rewire))
+			{
+
+
+				preconnectivityee[i][j]=1;
+
+
+			}else
+			{
+				preconnectivityee[i][j]=0;
+			}
+
+		}
+	}
+
+
+
+
+//int connectivityee[nexc][nexc];
+
+int **connectivityee = new int*[nexc];
+
+for(int i=0; i<nexc; i++)
+{
+connectivityee[i]= new int[nexc];
+}
+
+
+	for(int i=0; i<nexc;i++)
+	{
+		for(int j=0; j<nexc;j++)
+		{
+			//cout<<preconnectivityee[j][i]<<"hi"<<endl;
+			connectivityee[i][j]= preconnectivityee[j][i];
+			connectivityeetext<<connectivityee[i][j];
+			connectivityeetext<< " ";
+		}
+		connectivityeetext<<endl;
+	}
+
+
+	for(int i=0; i<nexc; i++) // I just did this on july 26, because excitatory  cant go down
+	{
+		for (int j=0; j<nexc; j++ )
+		{
+			if(connectivityee[i][j]){
+			w[i][j]=gsynee;}
+
+		}
+
+	}
+
+
 ```
 
 &nbsp; 
@@ -296,14 +387,15 @@ sim1 V_integrate(double V1,double mv1, double nv1, double sv1, double hv1, doubl
 **_Interaction Topology_**
 
 _Description of the topology of who interacts with whom in the system. Perfectly mixed? Spatial proximity? Along a network? CA neighborhood?_
+As descride in the model description. E inbitotry neruons will be connected to every other neuron in the network while the excitatory neurons will be connected only to its neighbors within a certain radius. This means that the exciatory neurons will be connected to about 4 times as many excitatory neurons as inhibitory neurons. I will then introduce attractors by increasing the synaptic strength of neurons within a specific region.
  
 **_Action Sequence_**
 
 _What does an agent, cell, etc. do on a given turn? Provide a step-by-step description of what happens on a given turn for each part of your model_
 
-1. Step 1
-2. Step 2
-3. Etc...
+1. Sum all input currents
+2. calculate change in voltage
+3. add input to neightbors
 
 &nbsp; 
 ### 4) Model Parameters and Initialization
@@ -314,11 +406,31 @@ _Describe how your model will be initialized_
 
 _Provide a high level, step-by-step description of your schedule during each "tick" of the model_
 
+
+Each neuron will follow the equations
+dv/dt= (1.0/C)*(-gna*pow(minf,3)*hv*(V-Vna)-gkdr*pow(nv,4)*(V-Vk)-gks*sv*(V-Vk)-gl*(V-Vl)+Iext-Isyn +Id);
+which will be based off of parameters that follow the equations
+dh/dt=(1.0/tauh(V))*(hinf(V)-hv);
+dn/dt=(1.0/taun(V))*(ninf(V)-nv);
+ds/dt=(1.0/taus(V))*(sinf(V)-sv);
+Where the derivative multiplied by the time step will be added to the to values of the variable at each time step.
+
+At the first time step each parameter will be given a random value in the following range.
+ Vi=-62+rand*40;
+ ni=.2 +rand*.6;
+ si=0.2+rand*.1;
+ mi=0;
+ hi=.2+rand*.6;
+ Where rand is a random number between zero and one.
+ 
+
 &nbsp; 
 
 ### 5) Assessment and Outcome Measures
 
 _What quantitative metrics and/or qualitative features will you use to assess your model outcomes?_
+
+The aim of the model is to analyse the stability of spiking attractors in response to different parameters such as the radius of connection and strength of connections. I will compare strength and 
 
 &nbsp; 
 
