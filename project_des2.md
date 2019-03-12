@@ -1,6 +1,6 @@
-# Model Proposal for _[Project Name]_
+# Model Proposal for Temporal Dynamics of Network Attractor Memories
 
-_Your Name_
+Bolaji Eniwaye
 
 * Course ID: CMPLXSYS 530,
 * Course Title: Computer Modeling of Complex Systems
@@ -14,6 +14,7 @@ _Your Name_
 *****
  
 _Provide a short, 1-3 sentence description of the goal of your model_
+I will be modelling a network of neurons and introducing spiking attractors that represent memory formation. I will then look at the temporal dynamics of the attractors.
 
 &nbsp;  
 ### Justification
