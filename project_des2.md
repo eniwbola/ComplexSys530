@@ -20,18 +20,24 @@ I will be modelling a network of neurons and introducing spiking attractors that
 ### Justification
 ****
 _Short explanation on why you are using ABM_
+ Because neural networks consist of many different interacting units, neurons, agent based techniques are natural for the analysis of neural networks.
 
 &nbsp; 
 ### Main Micro-level Processes and Macro-level Dynamics of Interest
 ****
 
 _Short overview of the key processes and/or relationships you are interested in using your model to explore. Will likely be something regarding emergent behavior that arises from individual interactions_
+The two important qualities of neurons are that they spike(have drastic changes in membraine potential) and that they connect with other neurons. Although the spiking dynamics of each individual neuron can be analyzed the more interesting behavior is the pattern of spiking of neuron groups that occurs as the result of the connections between neurons which causes connected neurons of to be primed to spike if their neighbor previously spikes. In this case we will be looking at the localization of spiking groups. 
 
 &nbsp; 
 
 
 ## Model Outline
 ****
+
+I will be using a modified version of the hodgekin huxley equations that govern neuron dyanmics where the modiffication is an ion current that inhibits a neuron the more it fires. I will then introduce two classes of neurons, inhibitory and excitatory, where inhibitory neurons inhibit their neighbors spike rate and excitatory neurons promote their neighbors spike rate.  The each inbitotry neruons will be connected to every other neuron in the network while the excitatory neurons will be connected only to its neighbors within a certain radius. I will then introduce attractors by increasing the synaptic strength of neurons within a specific region. 
+
+
 &nbsp; 
 ### 1) Environment
 _Description of the environment in your model. Things to specify *if they apply*:_
@@ -42,6 +48,7 @@ _Description of the environment in your model. Things to specify *if they apply*
 * _List of environment-owned methods/procedures (e.g. resource production, state change, etc.)_
 
 
+The environment with tbe the two lattices of excitatory neurons and inhibitory neurons where I will have roughly 1000 excitatory neurons and 250 inhibitory neurons. Such that the map will be and a grid consisting of both populations. The dimensionaliity with therefore be two dimensional will wrapped bounday condtions. The envirosment with will consist of localized current inputs such that neurons in certain regions are exposed to different amounts of external input. 
 ```python
 # Include first pass of the code you are thinking of using to construct your environment
 # This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
