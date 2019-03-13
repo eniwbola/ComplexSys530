@@ -14,20 +14,20 @@ Bolaji Eniwaye
 *****
  
 _Provide a short, 1-3 sentence description of the goal of your model_
-I will be modelling a network of neurons and introducing spiking attractors that represent memory formation. I will then look at the temporal dynamics of the attractors.
+I will be modeling a network of neurons and introducing spiking attractors that represent memory formation. I will then look at the temporal dynamics of the attractors in response to different initialization.
 
 &nbsp;  
 ### Justification
 ****
 _Short explanation on why you are using ABM_
- Because neural networks consist of many different interacting units, neurons, agent based techniques are natural for the analysis of neural networks.
+Because neural networks consist of many different interacting units, neurons, agent based techniques are natural for the analysis of neural networks.
 
 &nbsp; 
 ### Main Micro-level Processes and Macro-level Dynamics of Interest
 ****
 
 _Short overview of the key processes and/or relationships you are interested in using your model to explore. Will likely be something regarding emergent behavior that arises from individual interactions_
-The two important qualities of neurons are that they spike(have drastic changes in membraine potential) and that they connect with other neurons. Although the spiking dynamics of each individual neuron can be analyzed the more interesting behavior is the pattern of spiking of neuron groups that occurs as the result of the connections between neurons which causes connected neurons of to be primed to spike if their neighbor previously spikes. In this case we will be looking at the localization of spiking groups. 
+The two important qualities of neurons are that they spike(have drastic changes in membraine potential) and that they connect with other neurons. Although the spiking dynamics of each individual neuron can be analyzed the more interesting behavior is the pattern of spiking of neuron groups that occurs as the result of the connections between neurons.. In this case we will be looking at the localization of spiking groups. 
 
 &nbsp; 
 
@@ -35,7 +35,7 @@ The two important qualities of neurons are that they spike(have drastic changes 
 ## Model Outline
 ****
 
-I will be using a modified version of the hodgekin huxley equations that govern neuron dyanmics where the modiffication is an ion current that inhibits a neuron the more it fires. I will then introduce two classes of neurons, inhibitory and excitatory, where inhibitory neurons inhibit their neighbors spike rate and excitatory neurons promote their neighbors spike rate.  The each inbitotry neruons will be connected to every other neuron in the network while the excitatory neurons will be connected only to its neighbors within a certain radius. I will then introduce attractors by increasing the synaptic strength of neurons within a specific region. 
+I will be using a modified version of the Hodgekin Huxley equations that govern neuron dyanmics where the modification is an ion current that inhibits a neuron the more it fires. I will then introduce two classes of neurons, inhibitory and excitatory, where inhibitory neurons inhibit their neighbors spike rate and excitatory neurons promote their neighbors spike rate. Each inbitotry neuron will be connected to every other neuron in the network while the excitatory neurons will be connected only to its neighbors within a certain radius. I will then introduce attractors by increasing the synaptic strength of neurons within a specific region. I will implement a learning rule tha leads to the destabilization of attractors over time. 
 
 
 &nbsp; 
@@ -48,13 +48,16 @@ _Description of the environment in your model. Things to specify *if they apply*
 * _List of environment-owned methods/procedures (e.g. resource production, state change, etc.)_
 
 
-The environment with tbe the two lattices of excitatory neurons and inhibitory neurons where I will have roughly 1000 excitatory neurons and 250 inhibitory neurons. Such that the map will be and a grid consisting of both populations. The dimensionaliity with therefore be two dimensional will wrapped bounday condtions. The envirosment with will consist of localized current inputs such that neurons in certain regions are exposed to different amounts of external input. 
+The environment will be the two lattices of excitatory neurons and inhibitory neurons where I will have roughly 1000 excitatory neurons and 250 inhibitory neurons. The map will be a square grid consisting of both populations. The dimensionaliity with therefore be two dimensional with wrapped boundary conditions. The envirosment will consist of localized current inputs such that neurons in certain regions are exposed to different amounts of external input. 
 ```
 # Include first pass of the code you are thinking of using to construct your environment
 # This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
 # Feel free to include any patch methods/procedures you have. Filling in with pseudocode is ok! 
 # NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block
 
+#THIS CODE IS PROTOTYPED IN C++ AND WILL BE TRANSCRIBED TO PYTHON FOR THE FINAL RESULT
+
+//set up of neuron location
 if(i!=0){if( (radius_connect_ee[i-1][1]-floor((i)/ (sqrt(nexc))) ) !=0  ){x_coor_counter=0; }} // so this is to basically set where the neuron is in the column, so this line of code resets if move to the next row to start in the zero column
 	radius_connect_ee[i][0]= x_coor_counter;//i%( (int) round(sqrt(nexc)));
 
@@ -69,7 +72,7 @@ x_coor_counter++;
 }
 
 //////////////////////////////////////////
-
+//set up of connections between neurons
 bool rewire;
 double distance_prob;
 double distance_prob_2;
@@ -163,7 +166,8 @@ connectivityee[i]= new int[nexc];
 # Feel free to include any agent methods/procedures you have so far. Filling in with pseudocode is ok! 
 # NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block
 
-
+//Set up of the agents and paramters
+// Sim1 is analogous to turtles own
 struct sim1 {
 	double Vv;
 	//double spiketimesdyn;
@@ -177,7 +181,8 @@ struct sim1 {
 
 
 
-//////////////////////gating
+//////////////////////
+//Differential equations governing certain variables
 double hinf(double V){
 	double x;
 	x=pow((1+exp((V+53.0)/(7.0) )),(-1));
@@ -387,14 +392,14 @@ sim1 V_integrate(double V1,double mv1, double nv1, double sv1, double hv1, doubl
 **_Interaction Topology_**
 
 _Description of the topology of who interacts with whom in the system. Perfectly mixed? Spatial proximity? Along a network? CA neighborhood?_
-As descride in the model description. E inbitotry neruons will be connected to every other neuron in the network while the excitatory neurons will be connected only to its neighbors within a certain radius. This means that the exciatory neurons will be connected to about 4 times as many excitatory neurons as inhibitory neurons. I will then introduce attractors by increasing the synaptic strength of neurons within a specific region.
+As described in the model description The inhibitory and excitatory neurons will be distributed uniformly over the square lattice. Inhibitry neurons will be connected to every other neuron in the network while the excitatory neurons will be connected only to its neighbors within a certain radius. This means that the exciatory neurons will be connected to about 4 times as many excitatory neurons as inhibitory neurons. I will then introduce attractors by increasing the synaptic strength of  connections within a specific region.
  
 **_Action Sequence_**
 
 _What does an agent, cell, etc. do on a given turn? Provide a step-by-step description of what happens on a given turn for each part of your model_
 
 1. Sum all input currents
-2. calculate change in voltage
+2. calculate change in voltage/other parameters
 3. add input to neightbors
 
 &nbsp; 
@@ -406,15 +411,14 @@ _Describe how your model will be initialized_
 
 _Provide a high level, step-by-step description of your schedule during each "tick" of the model_
 
+Global paramters
+double dt=0.05; // ms
+double runtime=2000;//500;// 2000.0; // ms
+int ninh=250; // number of inhibitory neurons
+int nexc=1000;// number of excitatory neurons
 
-Each neuron will follow the equations
-dv/dt= (1.0/C)*(-gna*pow(minf,3)*hv*(V-Vna)-gkdr*pow(nv,4)*(V-Vk)-gks*sv*(V-Vk)-gl*(V-Vl)+Iext-Isyn +Id);
-which will be based off of parameters that follow the equations
-dh/dt=(1.0/tauh(V))*(hinf(V)-hv);
-dn/dt=(1.0/taun(V))*(ninf(V)-nv);
-ds/dt=(1.0/taus(V))*(sinf(V)-sv);
-Where the derivative multiplied by the time step will be added to the to values of the variable at each time step.
 
+//initialization
 At the first time step each parameter will be given a random value in the following range.
  Vi=-62+rand*40;
  ni=.2 +rand*.6;
@@ -423,6 +427,19 @@ At the first time step each parameter will be given a random value in the follow
  hi=.2+rand*.6;
  Where rand is a random number between zero and one.
  
+//timestep
+Each neuron will follow the equations
+dv/dt= (1.0/C)*(-gna*pow(minf,3)*hv*(V-Vna)-gkdr*pow(nv,4)*(V-Vk)-gks*sv*(V-Vk)-gl*(V-Vl)+Iext-Isyn +Id);
+which will be based off of parameters that follow the equations
+dh/dt=(1.0/tauh(V))*(hinf(V)-hv);
+dn/dt=(1.0/taun(V))*(ninf(V)-nv);
+ds/dt=(1.0/taus(V))*(sinf(V)-sv);
+Where the derivative multiplied by the time step will be added to the to values of the variable at each time step.
+
+Additionally, at each time set the sum of the inputs will be computed.
+
+
+ 
 
 &nbsp; 
 
@@ -430,10 +447,12 @@ At the first time step each parameter will be given a random value in the follow
 
 _What quantitative metrics and/or qualitative features will you use to assess your model outcomes?_
 
-The aim of the model is to analyse the stability of spiking attractors in response to different parameters such as the radius of connection and strength of connections. I will compare strength and 
+The aim of the model is to analyze the stability of spiking attractors in response to different parameters such as the radius of connection and strength of connections. I will add learning rules between adjacent neurons and then look at the effect of intial instantiation of parameters and time evolution of the attractor. By time evolution I mean that I will look at the radial distribution of firing rate and see how the variance changes for time. I will expect that the initial radius of enconding and strength will have a signficant impact on the change in spiking distribution. 
 
 &nbsp; 
 
 ### 6) Parameter Sweep
 
 _What parameters are you most interested in sweeping through? What value ranges do you expect to look at for your analysis?_
+
+For the parameter sweep I will run through the radius of effect for excitatory to inhibitory as well as excitatory to exciatory connections as  well as the strength of the initial synapse. I will also scan over the strength of the excitatory connection and look map the rate of change of the attractors. I hope that for certain combinations of parameters that there will be a linear relation ship between the change in the variance of the attraction radius and linear time. 
