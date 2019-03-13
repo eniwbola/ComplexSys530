@@ -14,12 +14,14 @@ Bolaji Eniwaye
 *****
  
 _Provide a short, 1-3 sentence description of the goal of your model_
+
 I will be modeling a network of neurons and introducing spiking attractors that represent memory formation. I will then look at the temporal dynamics of the attractors in response to different initialization.
 
 &nbsp;  
 ### Justification
 ****
 _Short explanation on why you are using ABM_
+
 Because neural networks consist of many different interacting units, neurons, agent based techniques are natural for the analysis of neural networks.
 
 &nbsp; 
@@ -27,6 +29,7 @@ Because neural networks consist of many different interacting units, neurons, ag
 ****
 
 _Short overview of the key processes and/or relationships you are interested in using your model to explore. Will likely be something regarding emergent behavior that arises from individual interactions_
+
 The two important qualities of neurons are that they spike(have drastic changes in membraine potential) and that they connect with other neurons. Although the spiking dynamics of each individual neuron can be analyzed the more interesting behavior is the pattern of spiking of neuron groups that occurs as the result of the connections between neurons.. In this case we will be looking at the localization of spiking groups. 
 
 &nbsp; 
