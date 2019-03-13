@@ -38,7 +38,7 @@ The two important qualities of neurons are that they spike(have drastic changes 
 ## Model Outline
 ****
 
-I will be using a modified version of the Hodgekin Huxley equations that govern neuron dyanmics where the modification is an ion current that inhibits a neuron the more it fires. I will then introduce two classes of neurons, inhibitory and excitatory, where inhibitory neurons inhibit their neighbors spike rate and excitatory neurons promote their neighbors spike rate. Each inbitotry neuron will be connected to every other neuron in the network while the excitatory neurons will be connected only to its neighbors within a certain radius. I will then introduce attractors by increasing the synaptic strength of neurons within a specific region. I will implement a learning rule tha leads to the destabilization of attractors over time. 
+I will be using a modified version of the Hodgekin Huxley equations that govern neuron dyanmics where the modification is an ion current that inhibits a neuron the more it fires. I will then introduce two classes of neurons, inhibitory and excitatory, where inhibitory neurons inhibit their neighbors spike rate and excitatory neurons promote their neighbors spike rate. Each inbitory neuron will be connected to every other neuron in the network while the excitatory neurons will be connected only to its neighbors within a certain radius. I will then introduce attractors by increasing the synaptic strength of neurons within a specific region. I will implement a learning rule tha leads to the destabilization of attractors over time. 
 
 
 &nbsp; 
