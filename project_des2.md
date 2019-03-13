@@ -402,8 +402,8 @@ As described in the model description The inhibitory and excitatory neurons will
 _What does an agent, cell, etc. do on a given turn? Provide a step-by-step description of what happens on a given turn for each part of your model_
 
 1. Sum all input currents
-2. calculate change in voltage/other parameters
-3. add input to neightbors
+2. Calculate change in voltage/other parameters
+3. Add input to neighbors
 
 &nbsp; 
 ### 4) Model Parameters and Initialization
