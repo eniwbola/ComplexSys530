@@ -51,7 +51,7 @@ _Description of the environment in your model. Things to specify *if they apply*
 * _List of environment-owned methods/procedures (e.g. resource production, state change, etc.)_
 
 
-The environment will be the two lattices of excitatory neurons and inhibitory neurons where I will have roughly 1000 excitatory neurons and 250 inhibitory neurons. The map will be a square grid consisting of both populations. The dimensionaliity with therefore be two dimensional with wrapped boundary conditions. The envirosment will consist of localized current inputs such that neurons in certain regions are exposed to different amounts of external input. 
+The environment will be the two lattices of excitatory neurons and inhibitory neurons where I will have roughly 1000 excitatory neurons and 250 inhibitory neurons. The map will be a square grid consisting of both populations. The dimensionaliity with therefore be two dimensional with wrapped boundary conditions. The environment will consist of localized current inputs such that neurons in certain regions are exposed to different amounts of external input. 
 ```
 # Include first pass of the code you are thinking of using to construct your environment
 # This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
