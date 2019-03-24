@@ -34,13 +34,14 @@ The two important qualities of neurons are that they spike(have drastic changes 
 
 &nbsp; 
 
+*__LS COMMENTS:__ Good overview of model and processes of interest.*
 
 ## Model Outline
 ****
 
 I will be using a modified version of the Hodgekin Huxley equations that govern neuron dyanmics where the modification is an ion current that inhibits a neuron the more it fires. I will then introduce two classes of neurons, inhibitory and excitatory, where inhibitory neurons inhibit their neighbors spike rate and excitatory neurons promote their neighbors spike rate. Each inbitory neuron will be connected to every other neuron in the network while the excitatory neurons will be connected only to its neighbors within a certain radius. I will then introduce attractors by increasing the synaptic strength of neurons within a specific region. I will implement a learning rule tha leads to the destabilization of attractors over time. 
 
-
+*__LS COMMENTS:__ Great.*
 &nbsp; 
 ### 1) Environment
 _Description of the environment in your model. Things to specify *if they apply*:_
@@ -52,7 +53,10 @@ _Description of the environment in your model. Things to specify *if they apply*
 
 
 The environment will be the two lattices of excitatory neurons and inhibitory neurons where I will have roughly 1000 excitatory neurons and 250 inhibitory neurons. The map will be a square grid consisting of both populations. The dimensionaliity with therefore be two dimensional with wrapped boundary conditions. The environment will consist of localized current inputs such that neurons in certain regions are exposed to different amounts of external input. 
-```
+
+*__LS COMMENTS:__ Solid approach. Time allowing, I would definitely consider looking at how much a non-wrapped assumption affects the dynamics. I anticipate it could have a signifcant impact, so its worth testing unless you have a strong empirical case to only look at the wrapped condition.*
+
+```cpp
 # Include first pass of the code you are thinking of using to construct your environment
 # This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
 # Feel free to include any patch methods/procedures you have. Filling in with pseudocode is ok! 
@@ -162,8 +166,9 @@ connectivityee[i]= new int[nexc];
 * _List of agent-owned variables (e.g. age, heading, ID, etc.)_
 * _List of agent-owned methods/procedures (e.g. move, consume, reproduce, die, etc.)_
 
+*__LS COMMENTS__: Brief verbal description would be good here.*
 
-```
+```cpp
 # Include first pass of the code you are thinking of using to construct your agents
 # This may be a set of "turtle-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
 # Feel free to include any agent methods/procedures you have so far. Filling in with pseudocode is ok! 
@@ -406,6 +411,9 @@ _What does an agent, cell, etc. do on a given turn? Provide a step-by-step descr
 3. Add input to neighbors
 
 &nbsp; 
+
+*__LS COMMENTS__: Are updates per tick asychronous or synchronous?* 
+
 ### 4) Model Parameters and Initialization
 
 _Describe and list any global parameters you will be applying in your model._
@@ -414,7 +422,9 @@ _Describe how your model will be initialized_
 
 _Provide a high level, step-by-step description of your schedule during each "tick" of the model_
 
+
 Global paramters
+```cpp
 double dt=0.05; // ms
 double runtime=2000;//500;// 2000.0; // ms
 int ninh=250; // number of inhibitory neurons
@@ -429,7 +439,7 @@ At the first time step each parameter will be given a random value in the follow
  mi=0;
  hi=.2+rand*.6;
  Where rand is a random number between zero and one.
- 
+
 //timestep
 Each neuron will follow the equations
 dv/dt= (1.0/C)*(-gna*pow(minf,3)*hv*(V-Vna)-gkdr*pow(nv,4)*(V-Vk)-gks*sv*(V-Vk)-gl*(V-Vl)+Iext-Isyn +Id);
@@ -441,7 +451,7 @@ Where the derivative multiplied by the time step will be added to the to values 
 
 Additionally, at each time set the sum of the inputs will be computed.
 
-
+```
  
 
 &nbsp; 
@@ -459,3 +469,5 @@ The aim of the model is to analyze the stability of spiking attractors in respon
 _What parameters are you most interested in sweeping through? What value ranges do you expect to look at for your analysis?_
 
 For the parameter sweep I will run through the radius of effect for excitatory to inhibitory as well as excitatory to exciatory connections as  well as the strength of the initial synapse. I will also scan over the strength of the excitatory connection and look map the rate of change of the attractors. I hope that for certain combinations of parameters that there will be a linear relation ship between the change in the variance of the attraction radius and linear time. 
+
+*__LS COMMENTS__: Great project and very well-developed already. Look forward to seeing what you get! 19.5/20*
